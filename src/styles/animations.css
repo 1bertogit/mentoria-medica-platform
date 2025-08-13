@@ -1,0 +1,437 @@
+/* Animation utilities and performance optimizations */
+
+/* GPU acceleration for common animations */
+.animate-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduced motion support - Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-animate {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .motion-safe-animate * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Still allow opacity and color transitions for accessibility */
+  .motion-safe-animate.allow-opacity {
+    transition: opacity 0.2s ease !important;
+  }
+  
+  .motion-safe-animate.allow-color {
+    transition: color 0.2s ease, background-color 0.2s ease !important;
+  }
+}
+
+/* Shimmer animation for loading states */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { 
+    background-position: -200% 0; 
+  }
+  100% { 
+    background-position: 200% 0; 
+  }
+}
+
+/* Pulse animation with GPU acceleration */
+.pulse-gpu {
+  animation: pulse-gpu 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform: translateZ(0);
+}
+
+@keyframes pulse-gpu {
+  0%, 100% {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateZ(0) scale(1.05);
+  }
+}
+
+/* Floating animation for interactive elements */
+.float {
+  animation: float 3s ease-in-out infinite;
+  transform: translateZ(0);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateZ(0) translateY(0px);
+  }
+  50% {
+    transform: translateZ(0) translateY(-10px);
+  }
+}
+
+/* Glow effect for interactive elements */
+.glow {
+  position: relative;
+}
+
+.glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #3b82f6, #06b6d4, #3b82f6);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.glow:hover::before {
+  opacity: 0.7;
+}
+
+/* Success ripple effect */
+.success-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.success-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(34, 197, 94, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.success-ripple.active::after {
+  width: 200%;
+  height: 200%;
+}
+
+/* Achievement unlock animation */
+.achievement-unlock {
+  animation: achievement-unlock 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes achievement-unlock {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(-90deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Lesson card hover effect */
+.lesson-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+.lesson-card:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.2),
+    0 20px 40px rgba(102, 126, 234, 0.15);
+}
+
+/* Progress ring animation */
+.progress-ring {
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Button press effect */
+.button-press {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-press:active {
+  transform: scale(0.95) translateZ(0);
+}
+
+/* Video player controls fade */
+.video-controls {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.video-controls.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* Toast slide animation */
+.toast-slide {
+  animation: toast-slide 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes toast-slide {
+  0% {
+    transform: translateX(100%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Loading spinner with GPU acceleration */
+.spinner-gpu {
+  animation: spin-gpu 1s linear infinite;
+  transform: translateZ(0);
+}
+
+@keyframes spin-gpu {
+  from {
+    transform: translateZ(0) rotate(0deg);
+  }
+  to {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+
+/* Confetti particles */
+.confetti-particle {
+  animation: confetti-fall 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200px) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Streak fire animation */
+.streak-fire {
+  animation: streak-fire 2s ease-in-out infinite;
+}
+
+@keyframes streak-fire {
+  0%, 100% {
+    transform: scale(1) rotate(-2deg);
+    filter: hue-rotate(0deg);
+  }
+  33% {
+    transform: scale(1.05) rotate(2deg);
+    filter: hue-rotate(10deg);
+  }
+  66% {
+    transform: scale(0.95) rotate(-1deg);
+    filter: hue-rotate(-10deg);
+  }
+}
+
+/* Checkmark draw animation */
+.checkmark-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkmark-draw 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes checkmark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Level up effect */
+.level-up {
+  animation: level-up 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes level-up {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Module completion celebration */
+.module-complete {
+  animation: module-complete 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes module-complete {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.2) rotate(-60deg);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(0.9) rotate(20deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Navigation pill hover effect */
+.nav-pill {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-pill:hover::before {
+  opacity: 1;
+}
+
+.nav-pill:hover {
+  transform: scale(1.05) translateZ(0);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Course progress bar animation */
+.progress-fill {
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+
+/* Video buffering animation */
+.video-buffering {
+  animation: video-buffering 1.5s ease-in-out infinite;
+}
+
+@keyframes video-buffering {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Sidebar lesson item animations */
+.sidebar-lesson {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-lesson:hover {
+  transform: translateX(4px) translateZ(0);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Achievement badge pulse */
+.achievement-badge {
+  animation: achievement-pulse 2s ease-in-out infinite;
+}
+
+@keyframes achievement-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(168, 85, 247, 0);
+  }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-auto {
+  will-change: auto;
+}
+
+/* Scrollbar styling for smooth scrolling areas */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom properties for dynamic animations */
+:root {
+  --animation-play-state: running;
+  --animation-duration: 1s;
+  --bounce-height: 10px;
+}
+
+/* Battery-conscious animations */
+@media (prefers-reduced-motion: no-preference) {
+  .battery-safe {
+    animation-play-state: var(--animation-play-state);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glow::before {
+    filter: none;
+  }
+  
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  }
+}
